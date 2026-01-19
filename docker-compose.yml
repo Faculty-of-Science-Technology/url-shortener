@@ -20,6 +20,8 @@ services:
         container_name: url-shortener-frontend
         networks:
             - dokploy-network
+        depends_on:
+            - url-shortener
 networks:
   dokploy-network:
     external: true
