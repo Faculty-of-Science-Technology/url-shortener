@@ -9,6 +9,7 @@ import java.util.Random;
 public class BaseConvertShortenStrategy implements ShortenCodeStrategy {
 
     private static int rowId = 0;
+    private static final Random random = new Random();
 
     @Override
     public String generateCode() {
@@ -16,6 +17,6 @@ public class BaseConvertShortenStrategy implements ShortenCodeStrategy {
     }
 
     private String baseConvert(final int input, final int fromBase, final int toBase) {
-        return new BigInteger(String.valueOf((System.currentTimeMillis() + input) * new Random().nextLong()), fromBase).toString(toBase);
+        return new BigInteger(String.valueOf((System.currentTimeMillis() + input) * (random.nextLong() & Long.MAX_VALUE)), fromBase).toString(toBase);
     }
 }
