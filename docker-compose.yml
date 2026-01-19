@@ -4,21 +4,15 @@ services:
     url-shortener:
         build: ./url-shortener-backend
         ports:
-            - "8080:8080"
+            - "9007:8080"
         container_name: url-shortener-java
-        depends_on:
-            - mongo
         networks:
-            - shared-net
-    mongo:
-        image: "mongo:latest"
-        ports:
-            - "27017:27017"
-        volumes:
-            - .local/data:/data/db/
-        container_name: url-shortener-mongo
-        networks:
-            - shared-net
+            - dokploy-network
+        environment:
+            MONGODB_HOST: "management-urlshortenerjavadb-v680aj"
+            MONGODB_PORT: 27017
+            # MONGODB_PASSWORD: "<???>"
+            # MONGODB_USERNAME: "<???>"
 networks:
-    shared-net:
-        driver: bridge
+  dokploy-network:
+    external: true
