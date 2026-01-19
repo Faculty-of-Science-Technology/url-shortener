@@ -16,6 +16,6 @@ public class BaseConvertShortenStrategy implements ShortenCodeStrategy {
     }
 
     private String baseConvert(final int input, final int fromBase, final int toBase) {
-        return new BigInteger(String.valueOf((System.currentTimeMillis() + input) * new Random().nextLong()), fromBase).toString(toBase);
+        return new BigInteger(String.valueOf((System.currentTimeMillis() + input) * Math.abs(new Random().nextLong())), fromBase).toString(toBase);
     }
 }
