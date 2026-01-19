@@ -208,8 +208,8 @@ body {
 	justify-content: center;
 	gap: 10px;
 	text-shadow: 0 0 10px rgba(0, 255, 255, 0.5),
-				 0 0 20px rgba(0, 255, 255, 0.3),
-				 0 0 30px rgba(0, 255, 255, 0.2);
+				0 0 20px rgba(0, 255, 255, 0.3),
+				0 0 30px rgba(0, 255, 255, 0.2);
 	letter-spacing: 2px;
 }
 
