@@ -2,21 +2,21 @@
 	<div id="app">
 		<div class="header">
 			<div class="logo">
-				<span class="logo-main">Short URL</span>
-				<span class="logo-by">ShortUrl by NameSilo.com</span>
+				<span class="logo-main">URL Shortener</span>
 			</div>
 		</div>
 
 		<div class="container">
-			<div class="main-section" v-if="!shortenedUrl">
-				<h1>Paste the URL to be shortened</h1>
+			<!-- Main Input Section - Always visible -->
+			<div class="main-section">
+				<h1>{{ shortenedUrl ? 'Shorten Another URL' : 'Enter URL to shorten' }}</h1>
 				
 				<div class="input-section">
 					<input 
 						v-model="originalUrl" 
 						@keyup.enter="shortenUrl"
 						type="text" 
-						placeholder="Enter the link here" 
+						placeholder="Paste your long URL here" 
 						class="url-input"
 						:disabled="loading"
 					/>
@@ -25,24 +25,25 @@
 						class="shorten-btn"
 						:disabled="loading || !originalUrl"
 					>
-						{{ loading ? 'Shortening...' : 'ShortURL!' }}
+						{{ loading ? 'Shortening...' : 'Shorten URL' }}
 					</button>
 					<p v-if="error" class="error-message">{{ error }}</p>
 				</div>
 
-				<div class="info-section">
+				<div class="info-section" v-if="!shortenedUrl">
 					<p class="info-text">
-						<strong>ShortURL</strong> is a free tool to shorten URLs and generate short links
+						A modern, minimalist, and lightweight URL shortener
 					</p>
 					<p class="info-text">
-						URL shortener allows to create a shortened link making it easy to share
+						Create short links that are easy to share and remember
 					</p>
 				</div>
 			</div>
 
-			<div class="result-page" v-if="shortenedUrl">
-				<h1 class="result-title">Your shortened URL</h1>
-				<p class="result-subtitle">Copy the short link and share it in messages, texts, posts, websites and other locations.</p>
+			<!-- Result Section - Shows after shortening -->
+			<div class="result-section" v-if="shortenedUrl">
+				<h2 class="result-title">Success!</h2>
+				<p class="result-subtitle">Your URL has been shortened</p>
 
 				<div class="result-box">
 					<div class="url-display">
@@ -52,33 +53,11 @@
 						</button>
 					</div>
 					<div class="long-url-display">
-						<strong>Long URL:</strong> {{ originalUrlResult }}
+						<strong>Original URL:</strong> {{ originalUrlResult }}
 					</div>
 				</div>
 
-				<button @click="resetForm" class="shorten-another-btn">Shorten another URL</button>
-
-				<div class="note-section">
-					<p class="note-text">* Short URLs that do not have at least one click per month are disabled</p>
-				</div>
-
-				<div class="share-section">
-					<h3>Share it on social networks</h3>
-					<div class="social-buttons">
-						<a :href="'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(fullShortenedUrl)" target="_blank" class="social-btn facebook">
-							Facebook
-						</a>
-						<a :href="'https://twitter.com/intent/tweet?url=' + encodeURIComponent(fullShortenedUrl)" target="_blank" class="social-btn twitter">
-							Twitter
-						</a>
-						<a :href="'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(fullShortenedUrl)" target="_blank" class="social-btn linkedin">
-							LinkedIn
-						</a>
-						<a :href="'https://api.whatsapp.com/send?text=' + encodeURIComponent(fullShortenedUrl)" target="_blank" class="social-btn whatsapp">
-							WhatsApp
-						</a>
-					</div>
-				</div>
+				<button @click="resetForm" class="back-btn">Back to Home</button>
 			</div>
 		</div>
 	</div>
@@ -113,7 +92,6 @@ export default {
 
 			this.loading = true;
 			this.error = '';
-			this.shortenedUrl = '';
 			this.copied = false;
 
 			try {
@@ -134,6 +112,7 @@ export default {
 				const data = await response.json();
 				this.shortenedUrl = data.shortenCode;
 				this.originalUrlResult = data.url || this.originalUrl;
+				this.originalUrl = ''; // Clear input after successful shortening
 			} catch (err) {
 				this.error = err.message || 'An error occurred while shortening the URL';
 			} finally {
@@ -197,13 +176,6 @@ body {
 	font-weight: bold;
 	color: #333;
 	display: block;
-}
-
-.logo-by {
-	font-size: 14px;
-	color: #666;
-	display: block;
-	margin-top: 5px;
 }
 
 .container {
@@ -288,15 +260,16 @@ body {
 	line-height: 1.6;
 }
 
-/* Result Page Styles */
-.result-page {
+/* Result Section Styles */
+.result-section {
 	text-align: center;
+	margin-top: 20px;
 }
 
 .result-title {
-	color: #333;
-	font-size: 32px;
-	margin-bottom: 15px;
+	color: #4CAF50;
+	font-size: 28px;
+	margin-bottom: 10px;
 	font-weight: normal;
 }
 
@@ -304,7 +277,6 @@ body {
 	color: #666;
 	font-size: 16px;
 	margin-bottom: 30px;
-	line-height: 1.6;
 }
 
 .result-box {
@@ -371,75 +343,21 @@ body {
 	border-radius: 4px;
 }
 
-.shorten-another-btn {
-	padding: 15px 40px;
+.back-btn {
+	padding: 12px 30px;
 	font-size: 16px;
 	font-weight: bold;
-	color: white;
-	background-color: #2196F3;
-	border: none;
+	color: #4CAF50;
+	background-color: white;
+	border: 2px solid #4CAF50;
 	border-radius: 4px;
 	cursor: pointer;
-	margin-bottom: 30px;
-	transition: background-color 0.3s;
+	transition: all 0.3s;
 }
 
-.shorten-another-btn:hover {
-	background-color: #0b7dda;
-}
-
-.note-section {
-	margin-bottom: 30px;
-}
-
-.note-text {
-	color: #f44336;
-	font-size: 14px;
-	font-style: italic;
-}
-
-.share-section h3 {
-	color: #333;
-	font-size: 24px;
-	margin-bottom: 20px;
-	font-weight: normal;
-}
-
-.social-buttons {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 15px;
-	justify-content: center;
-}
-
-.social-btn {
-	padding: 12px 25px;
+.back-btn:hover {
+	background-color: #4CAF50;
 	color: white;
-	text-decoration: none;
-	border-radius: 4px;
-	font-size: 14px;
-	font-weight: bold;
-	transition: opacity 0.3s;
-}
-
-.social-btn:hover {
-	opacity: 0.8;
-}
-
-.social-btn.facebook {
-	background-color: #3b5998;
-}
-
-.social-btn.twitter {
-	background-color: #1DA1F2;
-}
-
-.social-btn.linkedin {
-	background-color: #0077b5;
-}
-
-.social-btn.whatsapp {
-	background-color: #25D366;
 }
 
 @media (max-width: 600px) {
@@ -458,14 +376,6 @@ body {
 	
 	.shortened-link {
 		text-align: center;
-	}
-	
-	.social-buttons {
-		flex-direction: column;
-	}
-	
-	.social-btn {
-		width: 100%;
 	}
 }
 </style>
