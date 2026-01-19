@@ -2,14 +2,19 @@
 	<div id="app">
 		<div class="header">
 			<div class="logo">
-				<span class="logo-main">URL Shortener</span>
+				<span class="logo-main">
+					<span class="logo-icon">⚡</span>
+					ShortCircuit
+					<span class="logo-icon">⚡</span>
+				</span>
+				<span class="logo-tagline">Lightning-fast URL shortening</span>
 			</div>
 		</div>
 
 		<div class="container">
 			<!-- Main Input Section - Always visible -->
 			<div class="main-section">
-				<h1>{{ shortenedUrl ? 'Shorten Another URL' : 'Enter URL to shorten' }}</h1>
+				<h1>{{ shortenedUrl ? 'Shorten Another URL' : 'Power Up Your Links' }}</h1>
 				
 				<div class="input-section">
 					<input 
@@ -25,24 +30,25 @@
 						class="shorten-btn"
 						:disabled="loading || !originalUrl"
 					>
-						{{ loading ? 'Shortening...' : 'Shorten URL' }}
+						<span v-if="loading">⚡ Processing...</span>
+						<span v-else>⚡ Short Circuit</span>
 					</button>
 					<p v-if="error" class="error-message">{{ error }}</p>
 				</div>
 
 				<div class="info-section" v-if="!shortenedUrl">
 					<p class="info-text">
-						A modern, minimalist, and lightweight URL shortener
+						⚡ Instantly transform long URLs into compact, shareable links
 					</p>
 					<p class="info-text">
-						Create short links that are easy to share and remember
+						Fast, simple, and reliable URL shortening
 					</p>
 				</div>
 			</div>
 
 			<!-- Result Section - Shows after shortening -->
 			<div class="result-section" v-if="shortenedUrl">
-				<h2 class="result-title">Success!</h2>
+				<h2 class="result-title">⚡ Circuit Complete!</h2>
 				<p class="result-subtitle">Your URL has been shortened</p>
 
 				<div class="result-box">
@@ -57,7 +63,7 @@
 					</div>
 				</div>
 
-				<button @click="resetForm" class="back-btn">Back to Home</button>
+				<button @click="resetForm" class="back-btn">⚡ Create Another</button>
 			</div>
 		</div>
 	</div>
@@ -149,19 +155,21 @@ export default {
 }
 
 body {
-	font-family: Arial, Helvetica, sans-serif;
-	background-color: #f5f5f5;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+	min-height: 100vh;
 }
 
 #app {
 	min-height: 100vh;
-	background-color: #f5f5f5;
+	background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
 }
 
 .header {
-	background-color: #fff;
-	padding: 20px 0;
-	box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+	background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+	padding: 25px 0;
+	box-shadow: 0 4px 20px rgba(0, 255, 255, 0.2);
+	border-bottom: 2px solid #00ffff;
 	margin-bottom: 40px;
 }
 
@@ -169,13 +177,46 @@ body {
 	max-width: 1200px;
 	margin: 0 auto;
 	padding: 0 20px;
+	text-align: center;
 }
 
 .logo-main {
-	font-size: 28px;
+	font-size: 36px;
 	font-weight: bold;
-	color: #333;
+	color: #00ffff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	text-shadow: 0 0 10px rgba(0, 255, 255, 0.5),
+	             0 0 20px rgba(0, 255, 255, 0.3),
+	             0 0 30px rgba(0, 255, 255, 0.2);
+	letter-spacing: 2px;
+}
+
+.logo-icon {
+	font-size: 32px;
+	animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+	0%, 100% {
+		opacity: 1;
+		text-shadow: 0 0 10px rgba(255, 255, 0, 0.8);
+	}
+	50% {
+		opacity: 0.7;
+		text-shadow: 0 0 20px rgba(255, 255, 0, 1);
+	}
+}
+
+.logo-tagline {
+	font-size: 14px;
+	color: #66d9ef;
 	display: block;
+	margin-top: 8px;
+	letter-spacing: 3px;
+	text-transform: uppercase;
 }
 
 .container {
@@ -185,38 +226,45 @@ body {
 }
 
 .main-section h1 {
-	color: #333;
+	color: #00ffff;
 	font-size: 32px;
 	text-align: center;
 	margin-bottom: 30px;
-	font-weight: normal;
+	font-weight: 600;
+	text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
 }
 
 .input-section {
-	background: white;
+	background: rgba(22, 33, 62, 0.9);
 	padding: 30px;
-	border-radius: 8px;
-	box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+	border-radius: 12px;
+	box-shadow: 0 8px 32px rgba(0, 255, 255, 0.1);
 	margin-bottom: 30px;
+	border: 1px solid rgba(0, 255, 255, 0.2);
+	backdrop-filter: blur(10px);
 }
 
 .url-input {
 	width: 100%;
 	padding: 15px;
 	font-size: 16px;
-	border: 2px solid #ddd;
-	border-radius: 4px;
+	border: 2px solid #66d9ef;
+	border-radius: 8px;
 	outline: none;
 	margin-bottom: 15px;
-	transition: border-color 0.3s;
+	transition: all 0.3s;
+	background: rgba(255, 255, 255, 0.95);
+	color: #1a1a2e;
 }
 
 .url-input:focus {
-	border-color: #4CAF50;
+	border-color: #00ffff;
+	box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+	background: white;
 }
 
 .url-input:disabled {
-	background-color: #f5f5f5;
+	background-color: rgba(200, 200, 200, 0.3);
 	cursor: not-allowed;
 }
 
@@ -225,28 +273,41 @@ body {
 	padding: 15px;
 	font-size: 18px;
 	font-weight: bold;
-	color: white;
-	background-color: #4CAF50;
+	color: #1a1a2e;
+	background: linear-gradient(135deg, #00ffff 0%, #66d9ef 100%);
 	border: none;
-	border-radius: 4px;
+	border-radius: 8px;
 	cursor: pointer;
-	transition: background-color 0.3s;
+	transition: all 0.3s;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3);
 }
 
 .shorten-btn:hover:not(:disabled) {
-	background-color: #45a049;
+	background: linear-gradient(135deg, #66d9ef 0%, #00ffff 100%);
+	box-shadow: 0 6px 20px rgba(0, 255, 255, 0.5);
+	transform: translateY(-2px);
+}
+
+.shorten-btn:active:not(:disabled) {
+	transform: translateY(0);
 }
 
 .shorten-btn:disabled {
-	background-color: #ccc;
+	opacity: 0.5;
 	cursor: not-allowed;
 }
 
 .error-message {
-	color: #f44336;
+	color: #ff6b6b;
 	font-size: 14px;
 	margin-top: 10px;
 	text-align: center;
+	background: rgba(255, 107, 107, 0.1);
+	padding: 10px;
+	border-radius: 6px;
+	border: 1px solid rgba(255, 107, 107, 0.3);
 }
 
 .info-section {
@@ -254,7 +315,7 @@ body {
 }
 
 .info-text {
-	color: #666;
+	color: #a8dadc;
 	font-size: 16px;
 	margin-bottom: 10px;
 	line-height: 1.6;
@@ -267,24 +328,51 @@ body {
 }
 
 .result-title {
-	color: #4CAF50;
-	font-size: 28px;
+	color: #00ffff;
+	font-size: 32px;
 	margin-bottom: 10px;
-	font-weight: normal;
+	font-weight: 600;
+	text-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+	animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+	from {
+		opacity: 0;
+		transform: translateY(-20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
 .result-subtitle {
-	color: #666;
+	color: #a8dadc;
 	font-size: 16px;
 	margin-bottom: 30px;
 }
 
 .result-box {
-	background: white;
+	background: rgba(22, 33, 62, 0.9);
 	padding: 30px;
-	border-radius: 8px;
-	box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+	border-radius: 12px;
+	box-shadow: 0 8px 32px rgba(0, 255, 255, 0.15);
 	margin-bottom: 30px;
+	border: 1px solid rgba(0, 255, 255, 0.2);
+	backdrop-filter: blur(10px);
+	animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+		transform: scale(0.95);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
 }
 
 .url-display {
@@ -293,75 +381,91 @@ body {
 	gap: 15px;
 	margin-bottom: 20px;
 	padding: 15px;
-	background-color: #f9f9f9;
-	border-radius: 4px;
-	border: 2px solid #4CAF50;
+	background: rgba(0, 255, 255, 0.05);
+	border-radius: 8px;
+	border: 2px solid #00ffff;
+	box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
 }
 
 .shortened-link {
 	flex: 1;
-	color: #4CAF50;
+	color: #00ffff;
 	text-decoration: none;
 	font-size: 18px;
 	font-weight: bold;
 	word-break: break-all;
 	text-align: left;
+	text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
 }
 
 .shortened-link:hover {
 	text-decoration: underline;
+	color: #66d9ef;
 }
 
 .copy-button {
 	padding: 10px 20px;
-	background-color: #4CAF50;
-	color: white;
+	background: linear-gradient(135deg, #00ffff 0%, #66d9ef 100%);
+	color: #1a1a2e;
 	border: none;
-	border-radius: 4px;
+	border-radius: 6px;
 	cursor: pointer;
 	font-size: 14px;
 	font-weight: bold;
 	white-space: nowrap;
-	transition: background-color 0.3s;
+	transition: all 0.3s;
+	text-transform: uppercase;
+	letter-spacing: 1px;
 }
 
 .copy-button:hover {
-	background-color: #45a049;
+	background: linear-gradient(135deg, #66d9ef 0%, #00ffff 100%);
+	box-shadow: 0 4px 15px rgba(0, 255, 255, 0.4);
 }
 
 .copy-button.copied {
-	background-color: #2196F3;
+	background: linear-gradient(135deg, #51cf66 0%, #37b24d 100%);
+	color: white;
 }
 
 .long-url-display {
-	color: #666;
+	color: #a8dadc;
 	font-size: 14px;
 	text-align: left;
 	word-break: break-all;
-	padding: 10px;
-	background-color: #f9f9f9;
-	border-radius: 4px;
+	padding: 12px;
+	background: rgba(0, 0, 0, 0.2);
+	border-radius: 6px;
+	border-left: 3px solid #66d9ef;
 }
 
 .back-btn {
 	padding: 12px 30px;
 	font-size: 16px;
 	font-weight: bold;
-	color: #4CAF50;
-	background-color: white;
-	border: 2px solid #4CAF50;
-	border-radius: 4px;
+	color: #00ffff;
+	background: rgba(0, 255, 255, 0.1);
+	border: 2px solid #00ffff;
+	border-radius: 8px;
 	cursor: pointer;
 	transition: all 0.3s;
+	text-transform: uppercase;
+	letter-spacing: 1px;
 }
 
 .back-btn:hover {
-	background-color: #4CAF50;
-	color: white;
+	background: linear-gradient(135deg, #00ffff 0%, #66d9ef 100%);
+	color: #1a1a2e;
+	box-shadow: 0 4px 15px rgba(0, 255, 255, 0.4);
+	transform: translateY(-2px);
 }
 
 @media (max-width: 600px) {
 	.logo-main {
+		font-size: 28px;
+	}
+	
+	.logo-icon {
 		font-size: 24px;
 	}
 	
