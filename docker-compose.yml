@@ -16,7 +16,7 @@ services:
     url-shortener-frontend:
         build: ./url-shortener-frontend
         ports:
-            - "8080:80"
+            - "9008:80"
         container_name: url-shortener-frontend
         networks:
             - dokploy-network
