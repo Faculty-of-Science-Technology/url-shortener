@@ -11,8 +11,8 @@ services:
         environment:
             MONGODB_HOST: "management-urlshortenerjavadb-v680aj"
             MONGODB_PORT: 27017
-            # MONGODB_PASSWORD: "<???>"
-            # MONGODB_USERNAME: "<???>"
+            MONGODB_PASSWORD: ${MONGODB_PASSWORD}
+            MONGODB_USERNAME: ${MONGODB_USERNAME}
 networks:
   dokploy-network:
     external: true
