@@ -96,6 +96,18 @@ export default {
 				return;
 			}
 
+			// Basic URL validation
+			try {
+				const url = new URL(this.originalUrl.trim());
+				if (!['http:', 'https:'].includes(url.protocol)) {
+					this.error = 'URL must start with http:// or https://';
+					return;
+				}
+			} catch (e) {
+				this.error = 'Please enter a valid URL (e.g., https://example.com)';
+				return;
+			}
+
 			this.loading = true;
 			this.error = '';
 			this.copied = false;
@@ -111,8 +123,15 @@ export default {
 				});
 
 				if (!response.ok) {
-					const errorData = await response.json();
-					throw new Error(errorData.message || 'Failed to shorten URL');
+					let errorMessage = 'Failed to shorten URL';
+					try {
+						const errorData = await response.json();
+						errorMessage = errorData.message || errorMessage;
+					} catch (jsonError) {
+						// If response is not JSON, use status text
+						errorMessage = response.statusText || errorMessage;
+					}
+					throw new Error(errorMessage);
 				}
 
 				const data = await response.json();
