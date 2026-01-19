@@ -37,3 +37,6 @@ build/
 
 ### Gradle ###
 url-shortener-backend/.gradle
+
+### Environment ###
+.env
